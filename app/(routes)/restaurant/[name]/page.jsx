@@ -2,7 +2,9 @@
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import Intro from '../_components/intro';
+// import Intro from '../_components/intro';
+import RestroTabs from '../_components/RestroTabs';
+import RestroIntro from '../_components/RestroIntro';
 
 function RestaurantDetail() {
 
@@ -14,13 +16,16 @@ function RestaurantDetail() {
     }, [])
     const GetRestaurantDetail = (restroSlug) => {
         GlobalApi.GetBusinessDetail(restroSlug).then(resp => {
-            console.log("resp is ", resp)
+            // console.log("resp is ", resp)
             setRestaurant(resp?.restaurant);
         })
     }
     return (
+
         <div>
-            <Intro restaurant={restaurant} />
+            <RestroIntro restaurant={restaurant} />
+            {/* <Intro restaurant={restaurant} /> */}
+            <RestroTabs restaurant={restaurant} />
         </div>
     )
 }

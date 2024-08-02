@@ -7,7 +7,7 @@ function BusinessItem({ business }) {
     return (
         <Link
             href={'/restaurant/' + business?.slug}
-            className='cursor-pointer group-hover:scale-115  hover:bg-orange-100 rounded-xl p-2 hover:border-primary'>
+            className='cursor-pointer group-hover:scale-115 hover:border-primary hover:bg-orange-100 rounded-xl p-2 '>
             <Image src={business?.banner?.url} alt={business?.name} width={500} height={130} className='h-[130px] rounded-xl object-cover ' />
             <div className='mt-2'>
                 <h2 className='font-bold text-lg'>{business?.name}</h2>

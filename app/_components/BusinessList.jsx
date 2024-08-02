@@ -23,14 +23,14 @@ function BusinessList() {
         ) {
             setLoading(true)
             GlobalApi.GetAllBusiness().then(resp => {
-                console.log("resp is ", resp?.restaurants);
+                // console.log("resp is ", resp?.restaurants);
                 setBusinessList(resp?.restaurants);
                 setLoading(false);
             })
         } else {
             setLoading(true)
             GlobalApi.GetBusiness(category_).then(resp => {
-                console.log("resp is ", resp?.restaurants);
+                // console.log("resp is ", resp?.restaurants);
                 setBusinessList(resp?.restaurants);
                 setLoading(false);
             })
