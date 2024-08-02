@@ -29,8 +29,11 @@ function MenuSection({ restaurant }) {
             productName: item?.name,
             productDescription: item?.description,
             productImage: item?.productImage?.url,
-            price: item?.price
+            price: item?.price,
+            restaurantSlug: restaurant?.slug
         }
+        console.log(data)
+        // console.log(item?.productImage?.url)
         GlobalApi.AddToCart(data).then(resp => {
             console.log(resp);
             setCartValue(!cartValue);
@@ -52,7 +55,7 @@ function MenuSection({ restaurant }) {
                 <div className='grid grid-col-1 lg:grid-cols-2 gap-5 mt-5'>
                     {menuItemList?.menuItem && menuItemList?.menuItem.map((item, index) => {
                         return (<div className='p-2 flex gap-3 border rounded-xl hover:border-primary cursor-pointer' key={index}>
-                            <Image src={item?.productImage?.url} alt='/altImage.png' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-lg' />
+                            <Image src={item?.productImage?.url} alt='image1' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-lg' />
                             <div className='flex flex-col gap-1 '>
                                 <h2 className='font-bold'>{item?.name}</h2>
                                 <h2>{item?.price}</h2>
