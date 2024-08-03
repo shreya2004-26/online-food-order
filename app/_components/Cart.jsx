@@ -1,16 +1,33 @@
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useContext } from 'react'
+import GlobalApi from '../_utils/GlobalApi'
+import { toast } from 'sonner'
+import { CartContext } from '../context/CartContext'
 
 const Cart = ({ cart }) => {
-    console.log("cart is ", cart)
+    const { cartValue, setCartValue } = useContext(CartContext);
+    // console.log("cart is ", cart)
     const CalculateCartAmount = () => {
         let total = 0;
         cart.forEach((item) => {
             total += item?.price;
         })
         return total.toFixed(2);
+    }
+
+    const RemoveItemFromCart = (id) => {
+        GlobalApi.DisconnectRestroFromUserCartItem(id).then(resp => {
+            console.log(resp);
+            if (resp) {
+                GlobalApi.DeleteItemFromCart(id).then(resp => {
+                    console.log(resp);
+                    toast("Item Removed!")
+                    setCartValue(!cartValue)
+                })
+            }
+        })
     }
     return (
         <div>
@@ -26,7 +43,7 @@ const Cart = ({ cart }) => {
                                 <h2 className='text-sm'>{item?.productName}</h2>
                             </div>
                             <h2 className=' flex gap-2 text-md font-bold'>${item?.price}
-                                <X className='text-primary' />
+                                <X className='text-primary' onClick={() => RemoveItemFromCart(item?.id)} />
                             </h2>
                         </div>
                     )
