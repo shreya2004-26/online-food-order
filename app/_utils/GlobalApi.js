@@ -33,6 +33,9 @@ query GetBusiness {
     category {
       name
     }
+    review {
+      star
+    }
     id
     name
     restroType
@@ -84,6 +87,9 @@ const GetBusinessDetail = async (businessSlug) => {
     }
     category {
       name
+    }
+          review {
+      star
     }
     id
     name
@@ -184,6 +190,84 @@ const DeleteItemFromCart = async (id) => {
   return result;
 }
 
+const AddNewReview = async (data) => {
+  const query = gql`
+  mutation AddNewReview {
+  createReview(
+    data: {email: "`+ data.email + `", 
+    profileImage: "`+ data.profileImage + `", 
+    restaurant: {connect: {slug: "`+ data.RestroSlug + `"}}, 
+    reviewText: "`+ data.reviewText + `", 
+    star: `+ data.star + `, 
+    userName: "`+ data.userName + `"}
+  ) {
+    id
+  }
+  publishManyReviews(to: PUBLISHED) {
+    count
+  }
+}
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
+const getRestaurantReviews = async (slug) => {
+  const query = gql`
+  query RestaurantReviews {
+  reviews(where: {restaurant: {slug: "`+ slug + `"}}) {
+    email
+    id
+    profileImage
+    publishedAt
+    star
+    userName
+    reviewText
+  }
+}
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
+const CreateNewOrder = async (data) => {
+  const query = gql`
+  mutation CreateNewOrder {
+  createOrder(
+    data: {email: "`+ data.email + `", orderAmount: ` + data.orderAmount + `, restaurantName: "` + data.restaurantName + `", userName: "` + data.userName + `", zip: "` + data.zip + `", address: "` + data.address + `", phone: ` + data.phone + `}
+  ) {
+    id
+  }
+}
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
+
+const UpdateOrderToAddOrderItems = async (name, price, id, email) => {
+  const query = gql`
+  mutation UpdateOrderWithDetail {
+  updateOrder(
+    data: {orderDetail: {create: {OrderItem: {data: {name: "`+ name + `", price: ` + price + `}}}}}
+    where: {id: "`+ id + `"}
+  ) {
+    id
+  }
+     publishManyOrders(to: PUBLISHED) {
+    count
+  }
+
+  deleteManyUserCarts(where: {email: "`+ email + `"}) {
+    count
+
+}
+}
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
 export default {
   GetCategory,
   GetBusiness,
@@ -192,7 +276,11 @@ export default {
   AddToCart,
   GetUserCart,
   DisconnectRestroFromUserCartItem,
-  DeleteItemFromCart
+  DeleteItemFromCart,
+  AddNewReview,
+  getRestaurantReviews,
+  CreateNewOrder,
+  UpdateOrderToAddOrderItems
 }
 
 

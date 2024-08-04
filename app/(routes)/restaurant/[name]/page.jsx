@@ -1,22 +1,24 @@
 "use client"
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 // import Intro from '../_components/intro';
 import RestroTabs from '../_components/RestroTabs';
 import RestroIntro from '../_components/RestroIntro';
+import { NewReviewContext } from '@/app/context/NewReviewContext';
 
 function RestaurantDetail() {
 
     const [restaurant, setRestaurant] = useState([]);
     const param = usePathname();
-
+    const { newReview } = useContext(NewReviewContext);
     useEffect(() => {
+
         GetRestaurantDetail(param.split("/")[2]);
-    }, [])
+    }, [newReview])
     const GetRestaurantDetail = (restroSlug) => {
         GlobalApi.GetBusinessDetail(restroSlug).then(resp => {
-            // console.log("resp is ", resp)
+
             setRestaurant(resp?.restaurant);
         })
     }

@@ -13,6 +13,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import Cart from './Cart'
+import Link from 'next/link'
 
 
 const Header = () => {
@@ -26,16 +27,18 @@ const Header = () => {
 
     const getUserCart = () => {
         GlobalApi.GetUserCart(user?.primaryEmailAddress?.emailAddress).then(resp => {
-            // console.log(resp)
+
             setCart(resp?.userCarts);
-            // console.log(cart?.length);
+
         }
         )
     }
-    // console.log("cart now is ", cart)
+
     return (
         <div className='flex flex-row justify-between items-center border-white-[1px] shadow-sm py-6 md:px-20'>
-            <Image src='/logo1.png' alt='logo' width={200} height={40} className='w-[250px]'></Image>
+            <Link href={"/"}>
+                <Image src='/logo1.png' alt='logo' width={200} height={40} className='w-[250px]'></Image>
+            </Link>
             <div className='hidden md:flex flex-row items-center bg-gray-100 px-2 border rounded-sm w-[400px] shadow-sm'>
                 <Input type="text" placeholder="Search" className=' w-full bg-transparent outline-none border-none' />
                 <SearchIcon className='text-primary' />

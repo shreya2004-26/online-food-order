@@ -18,12 +18,12 @@ function BusinessList() {
 
     const getBusinessList = (category_) => {
         setLoading(true);
-        // console.log(params.get("category"))
+
         if (category_ === "all" || params.get("category") === null
         ) {
             setLoading(true)
             GlobalApi.GetAllBusiness().then(resp => {
-                // console.log("resp is ", resp?.restaurants);
+
                 setBusinessList(resp?.restaurants);
                 setLoading(false);
             })
@@ -44,7 +44,7 @@ function BusinessList() {
             <h2 className='font-bold text-2xl'>Popular {category} Restaurants</h2>
             <h2 className='font-bold text-primary'> {businessList?.length} Results</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5 px-2 '>
-                {console.log("list", businessList)}
+
                 {!loading ? businessList?.map((restaurants, index) => {
                     return <BusinessItem key={index} business={restaurants} />
                 }) : (

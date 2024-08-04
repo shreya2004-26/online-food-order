@@ -1,9 +1,19 @@
+
 import { MapPin } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
 function RestroIntro({ restaurant }) {
-    // console.log("restaurant banner is ", restaurant?.banner)
+
+    const getReviews = () => {
+        const reviews = restaurant?.review;
+        var sumReviews = 0;
+        const totalReviews = reviews?.length;
+        for (let i = 0; i < totalReviews; i++) {
+            sumReviews += reviews[i].star
+        }
+        return { review: totalReviews <= 1 ? "5.0" : (sumReviews / totalReviews).toFixed(1), numberReview: totalReviews };
+    }
     return (
         <div>
             {restaurant?.banner?.url ? <div>
@@ -18,7 +28,7 @@ function RestroIntro({ restaurant }) {
             <h2 className='text-3xl mt-2 font-bold'>{restaurant?.name}</h2>
             <div className='flex items-center gap-2 mt-2'>
                 <Image src={'/star.png'} alt='star' width={20} height={20} />
-                <label className='text-sm text-gray-500'>4.5 (56)</label>
+                <label className='text-sm text-gray-500'>{getReviews().review} ({getReviews().numberReview})</label>
             </div>
             <h2 className='text-gray-500 mt-2 flex gap-2 items-center'>
                 <MapPin />

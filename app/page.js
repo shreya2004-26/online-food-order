@@ -5,6 +5,7 @@ import Header from './_components/Header'
 import CategoryList from './_components/CategoryList'
 import BusinessList from './_components/BusinessList'
 
+
 const page = () => {
   return (
     <>
@@ -13,6 +14,7 @@ const page = () => {
         <CategoryList />
         <BusinessList />
       </div>
+
     </>
   )
 }
