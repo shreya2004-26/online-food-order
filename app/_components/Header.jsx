@@ -1,12 +1,21 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs'
+import { SignInButton, SignOutButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs'
 import { SearchIcon, ShoppingBag, ShoppingBasket, ShoppingCart, UserIcon } from 'lucide-react'
 import Image from 'next/image'
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../context/CartContext'
 import GlobalApi from '../_utils/GlobalApi'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import {
     Popover,
     PopoverContent,
@@ -55,7 +64,20 @@ const Header = () => {
                             <Cart cart={cart && cart} />
                         </PopoverContent>
                     </Popover>
-                    <UserButton />
+                    {/* <UserButton /> */}
+
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger><Image src={user?.imageUrl} alt='user' width={35} height={35} className='rounded-full' /></DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <Link href={'/user'} ><DropdownMenuItem>Profile</DropdownMenuItem></Link>
+                            <Link href={'/user/my-orders'}><DropdownMenuItem>My Order</DropdownMenuItem></Link>
+                            <DropdownMenuItem><SignOutButton>Logout</SignOutButton></DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
                 </div>
                 :
                 <div className='flex flex-row gap-5'>

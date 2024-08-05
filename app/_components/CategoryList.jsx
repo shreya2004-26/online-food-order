@@ -20,7 +20,7 @@ const CategoryList = () => {
 
     useEffect(() => {
         getCategoryList();
-    }, [])
+    }, []) //when page will render
 
 
     // Used to get Category List
@@ -53,7 +53,8 @@ const CategoryList = () => {
             <ArrowLeftCircle className='absolute -left-10 top-9 bg-gray-500 rounded-full text-white h-8 w-8 cursor-pointer'
                 onClick={() => ScrollLeftHandler()} />
             {/* We do not use justify-center in scrollbar area */}
-            <div className='flex flex-row  gap-5  overflow-auto items-center scrollbar-hide ' ref={listRef}>
+            <div className='flex flex-row  gap-5  overflow-x-auto items-center scrollbar-hide' ref={listRef}>
+                {console.log(categoryList)}
                 {categoryList && categoryList.map((category, index) =>
                 (
                     <Link href={'?category=' + category.slug} key={index} className={`flex flex-col items-center gap-2 border-[1px] p-4 rounded-xl min-w-28 hover:border-primary hover:bg-orange-100 cursor-pointer group ${selectedCategory == category.slug && 'text-primary border-primary bg-orange-50'}`} >

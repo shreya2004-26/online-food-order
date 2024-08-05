@@ -28,9 +28,10 @@ const Provider = ({ children }) => {
         <div className='px-10 md:px-20 relative mb-20'>
             <CartContext.Provider value={{ cartValue, setCartValue }}>
                 <NewReviewContext.Provider value={{ newReview, setNewReview }}>
-                    <Header />
+                    <Header /> {/* it does not change*/}
                     <Toaster />
                     {children}
+                    {/* children refer to that component which actually change in routing */}
                 </NewReviewContext.Provider>
             </CartContext.Provider>
         </div>

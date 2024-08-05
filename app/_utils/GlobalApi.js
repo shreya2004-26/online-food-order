@@ -70,7 +70,6 @@ const GetBusiness = async (category) => {
   }
 }
   `
-
   const result = await request(MASTER_URL, query);
   // console.log("result now is:", result);
   return result;
@@ -268,6 +267,35 @@ const UpdateOrderToAddOrderItems = async (name, price, id, email) => {
   return result;
 }
 
+const GetUserOrders = async (email) => {
+  const query = gql`
+  query UserOrders {
+  orders(where: {email: "`+ email + `"}) {
+    email
+    address
+    createdAt
+    id
+    orderAmount
+    orderDetail {
+      ... on OrderItem {
+        id
+        name
+        price
+      }
+    }
+    phone
+    restaurantName
+    userName
+    zip
+  }
+}
+  `
+  const result = await request(MASTER_URL, query);
+  console.log("result295 ", result)
+  return result;
+
+}
+
 export default {
   GetCategory,
   GetBusiness,
@@ -280,7 +308,8 @@ export default {
   AddNewReview,
   getRestaurantReviews,
   CreateNewOrder,
-  UpdateOrderToAddOrderItems
+  UpdateOrderToAddOrderItems,
+  GetUserOrders
 }
 
 
