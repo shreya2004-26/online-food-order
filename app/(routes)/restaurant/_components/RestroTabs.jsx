@@ -5,6 +5,7 @@ import ReviewSection from './ReviewSection'
 
 
 function RestroTabs({ restaurant }) {
+    console.log(restaurant)
     return (
         // <div className='flex flex-row w-full items-center gap-10'>
         <Tabs defaultValue="category" className="w-full mt-10">
@@ -18,7 +19,9 @@ function RestroTabs({ restaurant }) {
             <TabsContent value="category">
                 <MenuSection restaurant={restaurant} />
             </TabsContent>
-            <TabsContent value="about">About</TabsContent>
+            <TabsContent value="about">
+                <p className='my-5 text-sm text-slate-500 px-5'>{restaurant?.aboutUs}</p>
+            </TabsContent>
             <TabsContent value="reviews">
                 <ReviewSection restaurant={restaurant} />
             </TabsContent>

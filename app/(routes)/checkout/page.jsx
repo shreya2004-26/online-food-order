@@ -53,7 +53,7 @@ function Checkout() {
             email: user.primaryEmailAddress.emailAddress,
             orderAmount: total,
             restaurantName: params.get('restaurant'),
-            userName: user.fullName,
+            userName: userName,
             phone: phone,
             address: address,
             zip: zip
@@ -61,13 +61,19 @@ function Checkout() {
         }
         console.log(data)
         GlobalApi.CreateNewOrder(data).then((resp) => {
-            // console.log(resp)
+            console.log(resp)
             const resultId = resp?.createOrder.id;
             if (resultId) {
                 cart.forEach((item) => {
                     GlobalApi.UpdateOrderToAddOrderItems(item.productName, item.price, resultId, user?.primaryEmailAddress.emailAddress).then((result) => {
                         console.log(result);
                         setLoading(false);
+                        setUsername("");
+                        setEmail("");
+                        setPhone("");
+                        setZip("");
+                        setAddress("")
+                        setCartValue(!cartValue)
                         toast("Order Created Successfully")
                     }, (error) => {
                         setLoading(false);
@@ -80,6 +86,12 @@ function Checkout() {
             setLoading(false);
         })
     }
+    function isDisable() {
+        if (!userName || !phone || !zip || !address || !email || !cart) {
+            return true;
+        }
+        return false;
+    }
     return (
         <>
             <div className='flex flex-col gap-5'>
@@ -88,15 +100,15 @@ function Checkout() {
                     <div className='col-span-2 flex flex-col gap-5'>
                         <h1 className='font-bold text-2xl'>Billing Details</h1>
                         <div className='flex gap-4'>
-                            <Input placeholder='Name' onChange={(e) => setUsername(e.target.value)} />
-                            <Input placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
+                            <Input placeholder='Name' value={userName} onChange={(e) => setUsername(e.target.value)} />
+                            <Input placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
                         <div className='flex gap-4'>
-                            <Input placeholder='Phone' onChange={(e) => setPhone(e.target.value)} />
-                            <Input placeholder='Zip' onChange={(e) => setZip(e.target.value)} />
+                            <Input placeholder='Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
+                            <Input placeholder='Zip' value={zip} onChange={(e) => setZip(e.target.value)} />
 
                         </div>
-                        <Input placeholder='Address' onChange={(e) => setAddress(e.target.value)} />
+                        <Input placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)} />
 
                     </div>
                     <div className='flex flex-col border shadow-sm gap-1'>
@@ -119,9 +131,9 @@ function Checkout() {
                             </div>
                             <div className='flex justify-between'>
                                 <h2 className='font-bold'>Total:</h2>
-                                <h2 className='font-bold'>${total}</h2>
+                                <h2 className='font-bold'>${total?.toFixed(2)}</h2>
                             </div>
-                            <Button onClick={() => addToOrder()}>
+                            <Button disabled={isDisable()} onClick={() => addToOrder()}>
                                 {loading ? <Loader className='animate-spin' /> : 'Make Payment'}</Button>
                         </div>
                     </div>

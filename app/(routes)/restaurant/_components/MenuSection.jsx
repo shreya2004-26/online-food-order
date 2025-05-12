@@ -21,6 +21,10 @@ function MenuSection({ restaurant }) {
     }
 
     const AddToCartHandler = (item) => {
+        if (!user) {
+            toast.error("Please login first");
+            return;
+        }
         toast.info("Adding to Cart!")
         const data = {
             email: user?.primaryEmailAddress?.emailAddress,
@@ -33,7 +37,6 @@ function MenuSection({ restaurant }) {
 
 
         GlobalApi.AddToCart(data).then(resp => {
-
             setCartValue(!cartValue);
             toast.success("Added to Cart!")
         }, (error) => {

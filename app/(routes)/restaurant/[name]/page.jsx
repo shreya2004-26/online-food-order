@@ -11,14 +11,13 @@ function RestaurantDetail() {
 
     const [restaurant, setRestaurant] = useState([]);
     const param = usePathname();
+    console.log(param.split("/")[2]) //Array(3) [ "", "restaurant", "subway" ]
     const { newReview } = useContext(NewReviewContext);
     useEffect(() => {
-
         GetRestaurantDetail(param.split("/")[2]);
     }, [newReview])
     const GetRestaurantDetail = (restroSlug) => {
         GlobalApi.GetBusinessDetail(restroSlug).then(resp => {
-
             setRestaurant(resp?.restaurant);
         })
     }

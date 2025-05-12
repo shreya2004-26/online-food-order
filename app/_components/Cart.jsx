@@ -67,7 +67,7 @@ const Cart = ({ cart }) => {
 
                     })
                 }
-                <Link href={'/checkout?restaurant=' + cart[0]?.restaurant?.name}><Button className='w-full'>Checkout ${CalculateCartAmount()}</Button></Link>
+                {cart?.length > 0 && <Link href={'/checkout?restaurant=' + cart[0]?.restaurant?.name}><Button className='w-full'>Checkout ${CalculateCartAmount()}</Button></Link>}
 
             </div>
         </div>
